@@ -13,7 +13,7 @@ describe('Neuron contract', async function () {
 		return {Neuron, neuronToken, owner, buyer1, buyer2};
 	}
 
-	describe('Depoyment Tests', async function () {
+	describe('Deployment Tests', async function () {
 		it('Check that Name = Neurons', async function () {
 			const {neuronToken} = await loadFixture(deployNeuronFixture);
 			expect(await neuronToken.name()).to.equal('Neurons');
@@ -30,12 +30,24 @@ describe('Neuron contract', async function () {
 				await neuronToken.BASE(),
 			);
 		});
+
+		it('Check that owners balance = Initial Supply', async function () {
+            const { neuronToken, owner } = await loadFixture(deployNeuronFixture);
+            const ownerBalance = await neuronToken.balanceOf(owner.address);
+            console.log(
+							await neuronToken.initSupply(),
+							await neuronToken.owner()
+						);
+			expect(await neuronToken.initSupply()).to.equal(
+				ownerBalance,
+            );
+		});
 	});
 
 	describe(
 		'SafeMath implementations',
 		await function () {
-			it('Checks Function _fragmentToNeurons', async function () {
+			it('Checks Function fragmentToNeurons', async function () {
 				const {neuronToken} = await loadFixture(deployNeuronFixture);
 				const ExpectedResult =
 					(await neuronToken.internalDecimals()) / (await neuronToken.BASE());

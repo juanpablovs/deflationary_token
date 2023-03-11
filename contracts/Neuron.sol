@@ -46,7 +46,7 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
             "EIP712Domain(string name,uint256 chainId,address verifyingContract)"
         );
 
-    uint256 private INIT_SUPPLY = 1_000_000_000 * 10**18;
+    uint256 private INIT_SUPPLY = 1_000_000_000 * BASE;
     uint256 private _totalSupply;
 
     modifier validRecipient(address to) {
