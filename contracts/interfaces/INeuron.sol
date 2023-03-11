@@ -11,9 +11,18 @@ abstract contract INeuron {
      */
     event Rebase(
         uint256 epoch,
-        uint256 prev
+        uint256 prevNeuronsScalingFactor,
+        uint256 newNeuronsScalingFactor
     );
 
+    /**
+     * @notice Event emitted when tokens are minted
+     */
+    event Mint(address to, uint256 amount);
 
+    /**
+     * @notice Event emitted when tokens are burned
+     */
+    event Burn(address from, uint256 amount);
 
 }
