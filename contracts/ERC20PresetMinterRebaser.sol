@@ -18,6 +18,4 @@ contract ERC20PresetMinterRebaser is Context, AccessControlEnumerable, ERC20Burn
         _setupRole(REBASER_ROLE, _msgSender());
     }
 
-
-
 }
