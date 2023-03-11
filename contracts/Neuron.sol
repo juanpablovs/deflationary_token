@@ -46,7 +46,7 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
             "EIP712Domain(string name,uint256 chainId,address verifyingContract)"
         );
 
-    uint256 private INIT_SUPPLY = 1000000000 * 10**18;
+    uint256 private INIT_SUPPLY = 1_000_000_000 * 10**18;
     uint256 private _totalSupply;
 
     modifier validRecipient(address to) {
@@ -55,13 +55,23 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
         _;
     }
 
-    constructor() ERC20PresetMinterRebaser("Eggs", "EGGS") {
+    constructor() ERC20PresetMinterRebaser("Neurons", "NEON") {
         neuronsScalingFactor = BASE;
-        initSupply = _fragmentToEggs(INIT_SUPPLY);
+        initSupply = _fragmentToNeurons(INIT_SUPPLY);
         _totalSupply = INIT_SUPPLY;
         _neuronsBalances[owner()] = initSupply;
 
         emit Transfer(address(0), msg.sender, INIT_SUPPLY);
+    }
+
+    /* - SafeMath implementations - */
+
+    function fragmentToNeurons(uint256 value) public view returns (uint256) {
+        return _fragmentToNeurons(value);
+    }
+
+    function _fragmentToNeurons(uint256 value) internal view returns (uint256) {
+        return value.mul(internalDecimals).div(neuronsScalingFactor);
     }
 
 }
