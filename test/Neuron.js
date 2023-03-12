@@ -16,24 +16,24 @@ describe('Neuron contract', async function () {
 	}
 
 	describe('Deployment Tests', async function () {
-		it('Check that Name = Neurons', async function () {
+		it('Check that Name is Neurons', async function () {
 			const {neuronToken} = await loadFixture(deployNeuronFixture);
 			expect(await neuronToken.name()).to.equal('Neurons');
 		});
 
-		it('Check that Symbol = NEON', async function () {
+		it('Check that Symbol is NEON', async function () {
 			const {neuronToken} = await loadFixture(deployNeuronFixture);
 			expect(await neuronToken.symbol()).to.equal('NEON');
 		});
 
-		it('Check that neuronsScalingFactor = BASE', async function () {
+		it('Check that neuronsScalingFactor is equal to BASE', async function () {
 			const {neuronToken} = await loadFixture(deployNeuronFixture);
 			expect(await neuronToken.neuronsScalingFactor()).to.equal(
 				await neuronToken.BASE(),
 			);
 		});
 
-		it('Check that owners balance = Initial Supply', async function () {
+		it('Check that owners balance is equal to Initial Supply', async function () {
 			const { neuronToken, owner } = await loadFixture(deployNeuronFixture);
 			// balanceOf overrides native ERC balanceOf function
 			// as defined in the constructor balance is stored fragemented into Neurons
