@@ -6,9 +6,10 @@ describe('Neuron contract', async function () {
 		const Neuron = await ethers.getContractFactory('Neuron');
 		const [owner, buyer1, buyer2] = await ethers.getSigners();
 
-		const neuronToken = new GasTracker(await Neuron.deploy(), {
-			logAfterTx: true,
-		});
+		// const neuronToken = new GasTracker(await Neuron.deploy(), {
+		// 	logAfterTx: true,
+		// });
+		const neuronToken = await Neuron.deploy();
 
 		await neuronToken.deployed();
 
@@ -33,17 +34,21 @@ describe('Neuron contract', async function () {
 			);
 		});
 
-		it('Check that owners balance is equal to Initial Supply', async function () {
-			const { neuronToken, owner } = await loadFixture(deployNeuronFixture);
+		it('Check that owners balance is equal to Initial Supply and event is emitted', async function () {
+			const {neuronToken, owner} = await loadFixture(deployNeuronFixture);
 			// balanceOf overrides native ERC balanceOf function
 			// as defined in the constructor balance is stored fragemented into Neurons
 			const ownerBalance = (
 				await neuronToken.balanceOf(owner.address)
 			).toString();
-			const initialSupply = (await neuronToken
-				.neuronsToFragment(await neuronToken.initSupply()))
-				.toString();
+			const initialSupply = (
+				await neuronToken.neuronsToFragment(await neuronToken.initSupply())
+			).toString();
 			expect(ownerBalance).to.equal(initialSupply);
+
+
+			await expect(neuronToken.transfer(owner.address, initialSupply))
+				.to.emit(neuronToken, 'Transfer');
 		});
 	});
 
@@ -59,6 +64,16 @@ describe('Neuron contract', async function () {
 				expect(await neuronToken.neuronsToFragment(amount)).to.equal(
 					expectedResult,
 				);
+			});
+
+			it('Checks Function transfer', async function () {
+				const {neuronToken, owner, buyer1} = await loadFixture(deployNeuronFixture);
+
+				await expect(() =>
+					neuronToken.transfer(buyer1.address, 50)).to.changeTokenBalances(neuronToken, [owner.address, buyer1.address], [-50, 50]);
+
+				await expect(neuronToken.transfer(buyer1.address, 50))
+					.to.emit(neuronToken, 'Transfer').withArgs(owner.address, buyer1.address, 50);
 			});
 		},
 	);

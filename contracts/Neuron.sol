@@ -72,11 +72,57 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
     /**
      *
      * @param addr The address to get balance from
-     * @return The balance
+     * @return The balance of addr
      */
     function balanceOf(address addr) public view override returns (uint256) {
         return _neuronsToFragment(_neuronsBalances[addr]);
     }
+
+    /**
+     * @dev Overrides Transfer to Transfer tokens to a specified address
+     * @param to The address to transfer to
+     * @param value The amount to be transferred
+     * @return True on success else false
+     */
+    function transfer(address to, uint256 value)
+        public
+        override
+        validRecipient(to)
+        returns (bool)
+    {
+        // underlying balance is stored in neurons, so divide by current scaling factor
+
+        // note, this means as scaling factor grows, dust will be untransferrable.
+        // minimum transfer value == neuronsScalingFactor / 1e24;
+
+        // get amount in underlying
+        uint256 neuronsValue = _fragmentToNeurons(value);
+
+        // sub from balance of sender
+        _neuronsBalances[msg.sender] = _neuronsBalances[msg.sender].sub(neuronsValue);
+
+        // add to balance of receiver
+        _neuronsBalances[to] = _neuronsBalances[to].add(neuronsValue);
+
+        emit Transfer(msg.sender, to, value);
+
+        return true;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

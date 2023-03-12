@@ -3,6 +3,7 @@ require('@nomicfoundation/hardhat-toolbox');
 require('solidity-coverage');
 require('hardhat-gas-reporter');
 require('hardhat-gas-trackooor');
+require('@nomicfoundation/hardhat-chai-matchers');
 
 // process.env.NODE_URL
 
