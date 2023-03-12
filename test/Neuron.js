@@ -6,7 +6,7 @@ describe('Neuron contract', async function () {
 		const Neuron = await ethers.getContractFactory('Neuron');
 		const [owner, buyer1, buyer2] = await ethers.getSigners();
 
-		const neuronToken = await Neuron.deploy();
+		const neuronToken = new GasTracker(await Neuron.deploy(), {logAfterTx: true});
 
 		await neuronToken.deployed();
 
