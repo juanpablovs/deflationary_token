@@ -1,6 +1,7 @@
 # Hardhat
 artifacts/
 cache/
+coverage.json
 
 # Logs
 logs
