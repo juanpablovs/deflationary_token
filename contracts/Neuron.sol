@@ -64,6 +64,25 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
         emit Transfer(address(0), msg.sender, INIT_SUPPLY);
     }
 
+
+
+
+    /* - ERC20 Overrides - */
+
+    /**
+     *
+     * @param addr The address to get balance from
+     * @return The balance
+     */
+    function balanceOf(address addr) public view override returns (uint256) {
+        return _neuronsToFragment(_neuronsBalances[addr]);
+    }
+
+
+
+
+
+
     /* - SafeMath implementations - */
 
     function fragmentToNeurons(uint256 value) public view returns (uint256) {
@@ -72,6 +91,14 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
 
     function _fragmentToNeurons(uint256 value) internal view returns (uint256) {
         return value.mul(internalDecimals).div(neuronsScalingFactor);
+    }
+
+    function neuronsToFragment(uint256 neurons) external view returns (uint256) {
+        return _neuronsToFragment(neurons);
+    }
+
+    function _neuronsToFragment(uint256 neurons) internal view returns (uint256) {
+        return neurons.mul(neuronsScalingFactor).div(internalDecimals);
     }
 
 }

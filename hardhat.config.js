@@ -10,7 +10,7 @@ require('hardhat-gas-trackooor');
 module.exports = {
 	solidity: '0.8.18',
 	gasReporter: {
-		enabled: true,
+		enabled: false,
 		currency: 'EUR',
 		gasPriceApi:
 			'https://api.etherscan.io/api?module=proxy&action=eth_gasPrice',

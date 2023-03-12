@@ -6,7 +6,9 @@ describe('Neuron contract', async function () {
 		const Neuron = await ethers.getContractFactory('Neuron');
 		const [owner, buyer1, buyer2] = await ethers.getSigners();
 
-		const neuronToken = new GasTracker(await Neuron.deploy(), {logAfterTx: true});
+		const neuronToken = new GasTracker(await Neuron.deploy(), {
+			logAfterTx: true,
+		});
 
 		await neuronToken.deployed();
 
@@ -32,17 +34,34 @@ describe('Neuron contract', async function () {
 		});
 
 		it('Check that owners balance = Initial Supply', async function () {
-            const { neuronToken, owner } = await loadFixture(deployNeuronFixture);
-            const ownerBalance = await neuronToken.balanceOf(owner.address);
-            console.log(
-							await neuronToken.initSupply(),
-							await neuronToken.owner()
-						);
-			expect(await neuronToken.initSupply()).to.equal(
-				ownerBalance,
-            );
+			const { neuronToken, owner } = await loadFixture(deployNeuronFixture);
+			// balanceOf overrides native ERC balanceOf function
+			// as defined in the constructor balance is stored fragemented into Neurons
+			const ownerBalance = (
+				await neuronToken.balanceOf(owner.address)
+			).toString();
+			const initialSupply = (await neuronToken
+				.neuronsToFragment(await neuronToken.initSupply()))
+				.toString();
+			expect(ownerBalance).to.equal(initialSupply);
 		});
 	});
+
+	describe(
+		'ERC20 Overrides implementations',
+		await function () {
+			it('Checks Function neuronsToFragment', async function () {
+				const {neuronToken} = await loadFixture(deployNeuronFixture);
+				const amount = 1_000_000;
+				expectedResult =
+					(amount * (await neuronToken.neuronsScalingFactor())) /
+					(await neuronToken.internalDecimals());
+				expect(await neuronToken.neuronsToFragment(amount)).to.equal(
+					expectedResult,
+				);
+			});
+		},
+	);
 
 	describe(
 		'SafeMath implementations',
