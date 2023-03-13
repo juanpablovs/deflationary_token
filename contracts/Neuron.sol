@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "contracts/ERC20PresetMinterRebaser.sol";
 import "contracts/interfaces/INeuron.sol";
-
+import "hardhat/console.sol";
 contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
 
     using SafeMath for uint256;
@@ -34,14 +34,14 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
 
     bytes32 public DOMAIN_SEPARATOR;
 
-    // TODO: check address is correct
+// TODO: check address is correct
     // keccak256("Permit(address owner,address spender,uint256 value,uint256 nonce,uint256 deadline)");
     bytes32 public constant PERMIT_TYPEHASH =
         0x6e71edae12b1b97f4d1f60370fef10105fa2faae0126114a169c64845d6126c9;
 
     mapping(address => uint256) public nonces;
 
-    // TODO: check this is still valid
+// TODO: check this is still valid
     /// @notice The EIP-712 typehash for the contract's domain
     bytes32 public constant DOMAIN_TYPEHASH =
         keccak256(
@@ -60,6 +60,7 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
     constructor() ERC20PresetMinterRebaser("Neurons", "NRS") {
         neuronsScalingFactor = BASE;
         initSupply = _fragmentToNeurons(INIT_SUPPLY);
+        console.log("INIT_SUPPLY es %s -- initSupply es %s", initSupply, INIT_SUPPLY);
         _totalSupply = INIT_SUPPLY;
         _neuronsBalances[owner()] = initSupply;
 
