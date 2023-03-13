@@ -10,6 +10,12 @@ require('@nomicfoundation/hardhat-chai-matchers');
 /** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
 	solidity: '0.8.18',
+	settings: {
+		optimizer: {
+			enabled: false,
+			runs: 1000,
+		},
+	},
 	gasReporter: {
 		enabled: false,
 		currency: 'EUR',
