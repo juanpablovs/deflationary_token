@@ -22,9 +22,9 @@ describe('Neuron contract', async function () {
 			expect(await neuronToken.name()).to.equal('Neurons');
 		});
 
-		it('Check that Symbol is NEON', async function () {
+		it('Check that Symbol is NRS', async function () {
 			const {neuronToken} = await loadFixture(deployNeuronFixture);
-			expect(await neuronToken.symbol()).to.equal('NEON');
+			expect(await neuronToken.symbol()).to.equal('NRS');
 		});
 
 		it('Check that neuronsScalingFactor is equal to BASE', async function () {

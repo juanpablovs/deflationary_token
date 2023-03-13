@@ -55,7 +55,7 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
         _;
     }
 
-    constructor() ERC20PresetMinterRebaser("Neurons", "NEON") {
+    constructor() ERC20PresetMinterRebaser("Neurons", "NRS") {
         neuronsScalingFactor = BASE;
         initSupply = _fragmentToNeurons(INIT_SUPPLY);
         _totalSupply = INIT_SUPPLY;
