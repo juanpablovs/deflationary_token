@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "contracts/ERC20PresetMinterRebaser.sol";
 import "contracts/interfaces/INeuron.sol";
-import "hardhat/console.sol";
+import "hardhat/console.sol"; //TODO:borrar
 contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
 
     using SafeMath for uint256;
@@ -60,10 +60,8 @@ contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
     constructor() ERC20PresetMinterRebaser("Neurons", "NRS") {
         neuronsScalingFactor = BASE;
         initSupply = _fragmentToNeurons(INIT_SUPPLY);
-        console.log("INIT_SUPPLY es %s -- initSupply es %s", initSupply, INIT_SUPPLY);
         _totalSupply = INIT_SUPPLY;
         _neuronsBalances[owner()] = initSupply;
-
         emit Transfer(address(0), msg.sender, INIT_SUPPLY);
     }
 
