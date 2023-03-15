@@ -2,6 +2,9 @@
 artifacts/
 cache/
 coverage.json
+temp/
+coverage.json
+coverage/
 
 # Logs
 logs
