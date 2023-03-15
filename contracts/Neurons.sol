@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "contracts/ERC20PresetMinterRebaser.sol";
 import "contracts/interfaces/INeuron.sol";
 import "hardhat/console.sol"; //TODO:borrar
-contract Neuron is ERC20PresetMinterRebaser, Ownable, INeuron {
+contract Neurons is ERC20PresetMinterRebaser, Ownable, INeuron {
 
     using SafeMath for uint256;
 

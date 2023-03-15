@@ -3,7 +3,7 @@ const {expect} = require('chai');
 
 describe('Neuron contract', async function () {
 	async function deployNeuronFixture() {
-		const Neuron = await ethers.getContractFactory('Neuron');
+		const Neuron = await ethers.getContractFactory('Neurons');
 		const [owner, buyer1, buyer2] = await ethers.getSigners();
 
 		// const neuronToken = new GasTracker(await Neuron.deploy(), {
